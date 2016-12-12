@@ -38,26 +38,6 @@ crontab -l
 
 xnhbsygdxg文件夹名是什么意思？小男孩不是一个胆小鬼的拼音开头字母，我相信你可以想出更诡异的文件夹名，避免被小黑扫描到，最好定期更换文件夹名，文件夹名更换后，crontab里面URL也需要更换哦。
 
-注意：
-
-1.执行远程命令,需要写全命令的路径，比如service要用/sbin/service，iptables要用/sbin/iptables。
-
-例如：
-
-停止SSH服务命令:/sbin/service sshd stop
-
-启动SSH服务命令:/sbin/service sshd start
-
-iptables允许112.11.11.11命令:/sbin/iptables -A INPUT -s 112.11.11.11 -j ACCEPT
-
-iptables删除允许112.11.11.11命令:/sbin/iptables -D INPUT -s 112.11.11.11 -j ACCEPT
-
-iptables禁止112.11.11.11命令:/sbin/iptables -A INPUT -s 112.11.11.11 -j DROP
-
-iptables删除禁止112.11.11.11命令:/sbin/iptables -D INPUT -s 112.11.11.11 -j DROP
-
-2.使用完boyurl工具,执行完命令,最好再执行一条echo ok,确保http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt,里面显示的是echo ok,否则crontab会每5分钟执行上次使用命令，切记，切记！
-
 最后，如果这个项目对您有所帮助，可以来支持一下https://ppabc.cn/
 
 
