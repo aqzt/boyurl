@@ -135,12 +135,7 @@ $filename="boyurl_cron.txt";
 $set_ip = $_POST["set_ip"];
 $str_shell = $_POST["shell_txt"];
 $statusid = $_POST["status"];
-
-$_SESSION['clientid'] = $_POST["clientid"];
-$clientid = $_SESSION['clientid'];
-//if($clientid == ""){
-//$clientid = "1";
-//}
+$clientid = $_POST["clientid"];
 if($statusid==1) $statusid1 = "checked=checked"; 
 if($statusid==2) $statusid2 = "checked=checked"; 
 if($statusid==5) $statusid5 = "checked=checked"; 
