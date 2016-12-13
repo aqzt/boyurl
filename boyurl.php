@@ -261,6 +261,8 @@ $str_shell
 	echo 'it is clientid $clientid ok'
 	sed -i 's/clientid 12 ok/clientid 6 ok/g'  \$Lujing/boyurl_cron.txt
 	sed -i 's/clientid 12 ok/clientid 6 ok/g'  /tmp/boyurl_cron.txt
+	sed -i 's/clientid 12 ok/clientid 6 ok/g'  /tmp/boyurl_pid.txt
+	sed -i 's/clientid 15 ok/clientid 6 ok/g'  /tmp/boyurl_pid.txt
 else
 	echo 'Linux command has been executed.'
 	exit 1
