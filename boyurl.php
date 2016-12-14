@@ -1,4 +1,5 @@
 <?php
+
 //记录登录的IP,并写入ip.txt
 function getIP()
 {
@@ -49,16 +50,16 @@ global $statusid5;
 global $statusid6;
 global $statusid7;
 global $statusid8;
-global $clientid;
-global $clientid1;
-global $clientid2;
-global $clientid3;
+global $Aid;
+global $Aid1;
+global $Aid2;
+global $Aid3;
 global $ip;
-if($statusid1 == "" and $statusid2 == "" and $statusid5 == "" and $statusid6 == ""){
-$statusid1 = "checked=checked";
+if($statusid1 == "" and $statusid2 == "" and $statusid5 == "" and $statusid6 == "" and $statusid7 == ""){
+$statusid8 = "checked=checked";
 }
-if($clientid1 == "" and $clientid2 == "" and $clientid3 == ""){
-$clientid1 = "checked=checked";
+if($Aid1 == "" and $Aid2 == "" and $Aid3 == ""){
+$Aid1 = "checked=checked";
 }
 echo '<html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -66,9 +67,9 @@ echo '<html>
 echo '
 <form action="boyurl.php" method="post">
 总开关:<br />
-<input type="radio" name="clientid"  value="12" '.$clientid1.' />单次执行
-<input type="radio" name="clientid"  value="6" '.$clientid2.' />关闭
-<input type="radio" name="clientid"  value="30" '.$clientid3.' />重复执行<br />
+<input type="radio" name="Aid"  value="12" '.$Aid1.' />单次执行
+<input type="radio" name="Aid"  value="6" '.$Aid2.' />关闭
+<input type="radio" name="Aid"  value="30" '.$Aid3.' />重复执行<br />
 需iptables设置IP:<br />
 <input type="radio" name="status"  value="1" '.$statusid1.' />允许
 <input type="radio" name="status"  value="5" '.$statusid5.' />删允许
@@ -118,20 +119,20 @@ echo '<html>
 }
  
 //登录判断---1
-if($_POST['login'] == "1"){  
+if($_POST['login'] == "1"){
 if(!isset($_POST['submit'])){  
     exit('非法访问!');  
 }
 session_start();
 $_SESSION['username'] = $username;  
 $_SESSION['userid'] = $result['userid'];
-$clientid = $_SESSION['clientid'];
+$Aid = $_SESSION['Aid'];
 $username = htmlspecialchars($_POST['username']);  
 $password = MD5($_POST['password']); 
 $keys = $_POST['randomkeys']; 
 
 //默认密码boyurl.com,md5加密值cf861e7add70d498d95d6e6763a87258  
-if($username == "admin" and $password == "cf861e7add70d498d95d6e6763a87258" and $_SESSION['randomkeys'] == $keys){  
+if($username == "admin" and $password == "cf861e7add70d498d95d6e6763a87258" and $_SESSION['randomkeys'] == $keys){
 //登录成功  
 echo $username,' 欢迎你！点击此处 <a href="boyurl.php?action=logout">注销</a> 登录！<br />';
 echo '<br><br>';
@@ -160,16 +161,16 @@ $filename="boyurl_cron.txt";
 $set_ip = $_POST["set_ip"];
 $str_shell = $_POST["shell_txt"];
 $statusid = $_POST["status"];
-$clientid = $_POST["clientid"];
+$Aid = $_POST["Aid"];
 if($statusid==1) $statusid1 = "checked=checked"; 
 if($statusid==2) $statusid2 = "checked=checked"; 
 if($statusid==5) $statusid5 = "checked=checked"; 
 if($statusid==6) $statusid6 = "checked=checked";
 if($statusid==7) $statusid7 = "checked=checked"; 
 if($statusid==8) $statusid8 = "checked=checked";
-if($clientid==12)  $clientid1 = "checked=checked";
-if($clientid==6)   $clientid2 = "checked=checked";
-if($clientid==30)  $clientid3 = "checked=checked";
+if($Aid==12)  $Aid1 = "checked=checked";
+if($Aid==6)   $Aid2 = "checked=checked";
+if($Aid==30)  $Aid3 = "checked=checked";
 
 switch ($statusid)
 {
@@ -228,44 +229,55 @@ $str_ipt = "echo ok";
 default:
 $str_ipt = "echo ok";
 }
-
+$Time = date('YmdHis');
 $str_txt = "
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-clientid=`curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt | grep 'it is clientid' | tail -n 1 |awk -F ' ' '{print $5}'`
-if [ \$clientid -gt 10 ];then
-curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt > /tmp/boyurl_cron.txt
-sed -i 's/\\r//g' /tmp/boyurl_cron.txt
-if [ \$clientid -gt 17 ];then
-sed -i 's/clientid 6 ok/clientid 30 ok/g'  /tmp/boyurl_cron.txt
-sed -i '/clientid/d'  /tmp/boyurl_pid.txt
-echo 'clientid 15 ok' >> /tmp/boyurl_pid.txt
-fi
-fi
-if [ \$clientid -lt 9 ];then
-curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt > /tmp/boyurl_cron.txt
-sed -i 's/\\r//g' /tmp/boyurl_cron.txt
-sed -i '/clientid/d'  /tmp/boyurl_pid.txt
-echo 'clientid 15 ok' >> /tmp/boyurl_pid.txt
-fi
 if [ ! -f /tmp/boyurl_pid.txt ];then
 echo 'Lujing /tmp' > /tmp/boyurl_pid.txt
-echo 'clientid 15 ok' >> /tmp/boyurl_pid.txt
+echo 'Bid 2 ok' >> /tmp/boyurl_pid.txt
+fi
+sed -i 's/Clientid/Bid/g'  /tmp/boyurl_pid.txt
+sed -i 's/clientid/Bid/g'  /tmp/boyurl_pid.txt
+Aid=`curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt | grep 'it is Aid' | tail -n 1 |awk -F ' ' '{print $5}'`
+Bid=`curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt | grep 'it is Bid' | tail -n 1 |awk -F ' ' '{print $5}'`
+Cid=`cat /tmp/boyurl_pid.txt | grep Bid | tail -n 1 |awk -F ' ' '{print $2}'`
+if [ \$Bid -ne \$Cid ];then
+curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt > /tmp/boyurl_cron.txt
+sed -i 's/\\r//g' /tmp/boyurl_cron.txt
+fi
+if [ \$Aid -gt 17 ];then
+sed -i '/Bid/d'  /tmp/boyurl_pid.txt
+echo 'Bid 3 ok' >> /tmp/boyurl_pid.txt
 fi
 Lujing=`cat /tmp/boyurl_pid.txt | grep Lujing | tail -n 1 |awk -F ' ' '{print $2}'`
-clientid1=`cat /tmp/boyurl_pid.txt | grep clientid | tail -n 1 |awk -F ' ' '{print $2}'`
-clientid2=`cat \$Lujing/boyurl_cron.txt | grep 'it is clientid' | tail -n 1 |awk -F ' ' '{print $5}'`
-if [ \$clientid1 -gt 10 ] && [ \$clientid2 -gt 10 ]; then 
+Did=`cat \$Lujing/boyurl_cron.txt | grep 'it is Aid' | tail -n 1 |awk -F ' ' '{print $5}'`
+Fid=`cat /tmp/boyurl_pid.txt | grep Bid | tail -n 1 |awk -F ' ' '{print $2}'`
+if [ \$Bid -ne \$Fid ] && [ \$Did -gt 10 ]; then 
 $str_ipt
 $str_shell
-	echo 'it is clientid $clientid ok'
-	sed -i 's/clientid 12 ok/clientid 6 ok/g'  \$Lujing/boyurl_cron.txt
-	sed -i 's/clientid 12 ok/clientid 6 ok/g'  /tmp/boyurl_cron.txt
-	sed -i 's/clientid 12 ok/clientid 6 ok/g'  /tmp/boyurl_pid.txt
-	sed -i 's/clientid 15 ok/clientid 6 ok/g'  /tmp/boyurl_pid.txt
+echo 'it is Aid $Aid ok'
+echo 'it is Bid $Time ok'
+sed -i '/Bid/d'  /tmp/boyurl_pid.txt
+echo 'Bid $Time ok' >> /tmp/boyurl_pid.txt
 else
-	echo 'Linux command has been executed.'
-	exit 1
+case \$Did in
+1 | 12)  
+echo 'Linux command has been executed.'
+exit 1
+;;
+2 | 6)  
+echo 'Close.'
+exit 1
+;;
+3 | 30)  
+echo 'ok.'
+exit 1
+;;
+*)  
+echo 'ok'
+;;  
+esac
 fi
 ";
 if (!$head=fopen($filename, "w+")) {

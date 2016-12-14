@@ -5,7 +5,7 @@ echo "*/5 * * * * curl -fsSL http://$1/$2/boyurl_cron.txt  | sed  's/\r//g' | sh
 echo "ok" > boyurl_cron.txt
 echo "ok" > boyurl_ip.txt
 echo "Lujing `pwd`" > /tmp/boyurl_pid.txt
-echo 'clientid 12 ok' >> /tmp/boyurl_pid.txt
+echo 'Bid 1 ok' >> /tmp/boyurl_pid.txt
 sed -i "s/www.boyurl.com/$1/g"  boyurl.php
 sed -i "s/xnhbsygdxg/$2/g"  boyurl.php
 chmod 777 boyurl_cron.txt
