@@ -239,19 +239,15 @@ echo 'Bid 2 ok' >> /tmp/boyurl_pid.txt
 fi
 sed -i 's/Clientid/Bid/g'  /tmp/boyurl_pid.txt
 sed -i 's/clientid/Bid/g'  /tmp/boyurl_pid.txt
-Aid=`curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt | grep 'it is Aid' | tail -n 1 |awk -F ' ' '{print $5}'`
-Bid=`curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt | grep 'it is Bid' | tail -n 1 |awk -F ' ' '{print $5}'`
-Cid=`cat /tmp/boyurl_pid.txt | grep Bid | tail -n 1 |awk -F ' ' '{print $2}'`
-if [ \$Bid -ne \$Cid ];then
 curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt > /tmp/boyurl_cron.txt
 sed -i 's/\\r//g' /tmp/boyurl_cron.txt
-fi
-if [ \$Aid -gt 17 ];then
-sed -i '/Bid/d'  /tmp/boyurl_pid.txt
-echo 'Bid 3 ok' >> /tmp/boyurl_pid.txt
-fi
+Bid=`cat /tmp/boyurl_cron.txt | grep 'it is Bid' | tail -n 1 |awk -F ' ' '{print $5}'`
 Lujing=`cat /tmp/boyurl_pid.txt | grep Lujing | tail -n 1 |awk -F ' ' '{print $2}'`
 Did=`cat \$Lujing/boyurl_cron.txt | grep 'it is Aid' | tail -n 1 |awk -F ' ' '{print $5}'`
+if [ \$Did -gt 18 ];then
+sed -i '/Bid/d'  /tmp/boyurl_pid.txt
+echo 'Bid 31 ok' >> /tmp/boyurl_pid.txt
+fi
 Fid=`cat /tmp/boyurl_pid.txt | grep Bid | tail -n 1 |awk -F ' ' '{print $2}'`
 if [ \$Bid -ne \$Fid ] && [ \$Did -gt 10 ]; then 
 $str_ipt
