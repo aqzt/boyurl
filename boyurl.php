@@ -1,5 +1,4 @@
 <?php
-
 //记录登录的IP,并写入ip.txt
 function getIP()
 {
@@ -71,12 +70,12 @@ echo '
 <input type="radio" name="Aid"  value="6" '.$Aid2.' />关闭
 <input type="radio" name="Aid"  value="30" '.$Aid3.' />重复执行<br />
 需iptables设置IP:<br />
+<input type="radio" name="status"  value="8" '.$statusid8.' />不设置
+<input type="radio" name="status"  value="7" '.$statusid7.' />初始化
 <input type="radio" name="status"  value="1" '.$statusid1.' />允许
 <input type="radio" name="status"  value="5" '.$statusid5.' />删允许
 <input type="radio" name="status"  value="2" '.$statusid2.' />禁止
-<input type="radio" name="status"  value="6" '.$statusid6.' />删禁止
-<input type="radio" name="status"  value="7" '.$statusid7.' />初始化
-<input type="radio" name="status"  value="8" '.$statusid8.' />不设置<br>
+<input type="radio" name="status"  value="6" '.$statusid6.' />删禁止<br>
 <input type="text" name="set_ip"   value="'.$ip.'"><br>
 需执行的shell脚本:<br />
 <textarea name="shell_txt" rows="5" cols="40">echo ok</textarea><br>
@@ -88,13 +87,10 @@ echo '
 }
 
 //登录
-
 if($_POST['login'] == ""){
 session_start();
 $_SESSION['randomkeys'] = randomkeys(6);
 $randomkeys = $_SESSION['randomkeys'];
-//$_SESSION['randomkeys'] = randomkeys(6);
-//$randomkeys = $_SESSION['randomkeys']
 echo '<html>  
 <head>用户登录</head>  
 <form name="LoginForm" method="post" action="boyurl.php" onSubmit="return InputCheck(this)">  
@@ -231,25 +227,23 @@ $str_ipt = "echo ok";
 }
 $Time = date('YmdHis');
 $str_txt = "
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
+export PATH=$PATH:/bin:/usr/bin:/usr/local/bin:/usr/sbin
 if [ ! -f /tmp/boyurl_pid.txt ];then
 echo 'Lujing /tmp' > /tmp/boyurl_pid.txt
 echo 'Bid 2 ok' >> /tmp/boyurl_pid.txt
 fi
 sed -i 's/Clientid/Bid/g'  /tmp/boyurl_pid.txt
 sed -i 's/clientid/Bid/g'  /tmp/boyurl_pid.txt
-curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt > /tmp/boyurl_cron.txt
-sed -i 's/\\r//g' /tmp/boyurl_cron.txt
-Bid=`cat /tmp/boyurl_cron.txt | grep 'it is Bid' | tail -n 1 |awk -F ' ' '{print $5}'`
+curl -fsSL http://www.boyurl.com/xnhbsygdxg/boyurl_cron.txt | sed  's/\\r//g' > /tmp/boyurl_cron.txt
 Lujing=`cat /tmp/boyurl_pid.txt | grep Lujing | tail -n 1 |awk -F ' ' '{print $2}'`
-Did=`cat \$Lujing/boyurl_cron.txt | grep 'it is Aid' | tail -n 1 |awk -F ' ' '{print $5}'`
-if [ \$Did -gt 18 ];then
+Bid=`cat /tmp/boyurl_cron.txt | grep 'it is Bid' | tail -n 1 |awk -F ' ' '{print $5}'`
+Cid=`cat \$Lujing/boyurl_cron.txt | grep 'it is Aid' | tail -n 1 |awk -F ' ' '{print $5}'`
+if [ \$Cid -gt 18 ];then
 sed -i '/Bid/d'  /tmp/boyurl_pid.txt
 echo 'Bid 31 ok' >> /tmp/boyurl_pid.txt
 fi
 Fid=`cat /tmp/boyurl_pid.txt | grep Bid | tail -n 1 |awk -F ' ' '{print $2}'`
-if [ \$Bid -ne \$Fid ] && [ \$Did -gt 10 ]; then 
+if [ \$Bid -ne \$Fid ] && [ \$Cid -gt 10 ]; then 
 $str_ipt
 $str_shell
 echo 'it is Aid $Aid ok'
@@ -257,7 +251,7 @@ echo 'it is Bid $Time ok'
 sed -i '/Bid/d'  /tmp/boyurl_pid.txt
 echo 'Bid $Time ok' >> /tmp/boyurl_pid.txt
 else
-case \$Did in
+case \$Cid in
 1 | 12)  
 echo 'Linux command has been executed.'
 exit 1
@@ -283,14 +277,10 @@ if (fwrite($head,$str_txt)==false) {
 fclose($head);
 die("写入内容失败!请检查是否拥有足够的权限!写入过程终止!");
 }
-
-
 echo $username,' 欢迎你！点击此处 <a href="boyurl.php?action=logout">注销</a> 登录！<br />';
-echo '写入成功！<br><br>'; 
-
+echo '写入成功！<br><br>';
 Html();
 fclose($head);
 }
 //执行需写入的shell---3
-
 ?> 
