@@ -11,6 +11,8 @@ boyurl是一个通过PHP来远程执行shell脚本工具。整个程序只有两
 
 5：手机远程执行命令管理linux服务器。 
 
+使用文档： https://ppabc.cn/1321.html
+
 默认管理账号admin  密码boyurl.com
 
 boyurl工具使用场景：linux默认都有开启SSH端口22，很容易被小黑扫描到，使用boyurl工具可以执行远程关闭SSH命令/sbin/service sshd stop，需要的使用SSH的时候，远程执行开启SSH命令/sbin/service sshd start，还可以远程执行其他命令，比如设置iptables规则、重启nginx等操作。
